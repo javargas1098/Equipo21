@@ -1,0 +1,4470 @@
+{
+	"info": {
+		"_postman_id": "2ad5b803-3141-417a-9cce-b6f047b720e0",
+		"name": "Gastronomic Culture API",
+		"description": "This API manages a gastronomic culture collections.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15515429"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "LogIn user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    \r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"token\", jsonData.token);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"username\": \"admin\",\r\n   \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Add category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function() {",
+									"    pm.response.to.have.status(201);",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"category_id\", jsonData.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Sauces\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories"
+							]
+						},
+						"description": "This request creates a new category. The API returns the created resource with the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Add category",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Sauces\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Sauces\"\n}"
+						},
+						{
+							"name": "Add category error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 500,\n   \"message\": \"The category can not be created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/{{category_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								"{{category_id}}"
+							]
+						},
+						"description": "This request get a category by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Get category",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/categories/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"1928"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n   \"name\": \"Sauces\"\n}"
+						},
+						{
+							"name": "Get category error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/{{category_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										"{{category_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The category with the given id was not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Sauces\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories/{{category_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								"{{category_id}}"
+							]
+						},
+						"description": "This request update a category by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Update category",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Sauces\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/categories/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"1928"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n   \"name\": \"Sauces\"\n}"
+						},
+						{
+							"name": "Update category error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Sauces\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories/{{category_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										"{{category_id}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 400,\n   \"message\": \"The category can not be updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories"
+							]
+						},
+						"description": "This request get all categories."
+					},
+					"response": [
+						{
+							"name": "Get all categories",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"14f05d0e-1275-11ed-861d-0242ac120002\",\n        \"name\": \"Sauces\"\n    },\n    {\n        \"id\": \"14f05d0e-1275-11ed-861d-0242ac120003\",\n        \"name\": \"Condiments\"\n    },\n    {\n        \"id\": \"14f05d0e-1275-11ed-861d-0242ac120004\",\n        \"name\": \"Cegetables\"\n    },\n    {\n        \"id\": \"14f05d0e-1275-11ed-861d-0242ac120005\",\n        \"name\": \"Snaks\"\n    }\n]"
+						},
+						{
+							"name": "Get all categories error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Categories not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function() {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/{{category_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								"{{category_id}}"
+							]
+						},
+						"description": "This request remove a category by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Delete categories",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/categories/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"1928"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Delete categories error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/{{category_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										"{{category_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Category can not be deleted\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Add product to category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories/{{category_id}}/products/{{product_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								"{{category_id}}",
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "This request add a product to category by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Add product to category",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/categories/1928/products/12321125",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"1928",
+										"products",
+										"12321125"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Sauces\",\n    \"products\": [\n        {\n            \"id\": \"48a9ab90-1276-11ed-861d-02q2ac120002\",\n            \"name\": \"Onion\",\n            \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n            \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n        }\n    ] \n}"
+						},
+						{
+							"name": "Add product to category error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories/{{category_id}}/products/{{product_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										"{{category_id}}",
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The category was not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove product to category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories/{{category_id}}/products/{{product_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								"{{category_id}}",
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "This request remove a product to category by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Remove product to category",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/categories/1928/products/12321125",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"1928",
+										"products",
+										"12321125"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Remove product to category error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories/{{category_id}}/products/{{product_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										"{{category_id}}",
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The product was not found\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This collection manages categories."
+		},
+		{
+			"name": "Country",
+			"item": [
+				{
+					"name": "City",
+					"item": [
+						{
+							"name": "Add city a country",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function() {",
+											"    pm.response.to.have.status(201);",
+											"    ",
+											"    var jsonData = pm.response.json();",
+											"    pm.collectionVariables.set(\"city_id\", jsonData.cities[jsonData.cities.length-1].id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Medellin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/countries/{{country_id}}/cities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										"{{country_id}}",
+										"cities"
+									]
+								},
+								"description": "This request add a new city to the country by the assigned ID."
+							},
+							"response": [
+								{
+									"name": "Add country city",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"name\": \"Bogotá\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/v1/countries/1928/cities",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"countries",
+												"1928",
+												"cities"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Colombia\",\n    \"cities\": [\n        {\n            \"id\": \"48a9ab90-1276-11ed-861d-0242ac12132\",\n            \"name\": \"Bogotá\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "Add country error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: basic",
+												"key": "Authorization",
+												"value": "Basic <credentials>"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/countries/{{country_id}}/cities",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"countries",
+												"{{country_id}}",
+												"cities"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The country not exists\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get country city",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function() {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/countries/{{country_id}}/cities/{{city_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										"{{country_id}}",
+										"cities",
+										"{{city_id}}"
+									]
+								},
+								"description": "This request get a city by the assigned ID."
+							},
+							"response": [
+								{
+									"name": "Get country",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/v1/countries/1928/cities/1221321",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"countries",
+												"1928",
+												"cities",
+												"1221321"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac12132\",\n    \"name\": \"Bogotá\"\n}"
+								},
+								{
+									"name": "Get country error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/countries/{{country_id}}/cities/{{city_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"countries",
+												"{{country_id}}",
+												"cities",
+												"{{city_id}}"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The city with the given id was not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update city",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Bogotá\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/countries/{{country_id}}/cities/{{city_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										"{{country_id}}",
+										"cities",
+										"{{city_id}}"
+									]
+								},
+								"description": "This request update a city by the assigned ID."
+							},
+							"response": [
+								{
+									"name": "Update country",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"name\": \"Bogotá\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/v1/countries/1928/cities/1221321",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"countries",
+												"1928",
+												"cities",
+												"1221321"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Colombia\",\n    \"cities\": [\n        {\n            \"id\": \"48a9ab90-1276-11ed-861d-0242ac12132\",\n            \"name\": \"Bogotá\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "Update country error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"name\": \"Bogotá\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/countries/{{country_id}}/cities/{{city_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"countries",
+												"{{country_id}}",
+												"cities",
+												"{{city_id}}"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 400,\n   \"message\": \"The city can not be updated\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get all cities by country",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function() {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/countries/{{country_id}}/cities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										"{{country_id}}",
+										"cities"
+									]
+								},
+								"description": "This request get all cities."
+							},
+							"response": [
+								{
+									"name": "Get all country cities",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/v1/countries/1928/cities",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"countries",
+												"1928",
+												"cities"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": \"48a9ab90-1276-11ed-861d-0242ac12132\",\n        \"name\": \"Bogotá\"\n    },\n        {\n        \"id\": \"48a9ab90-1276-11ed-861d-0242ac23332\",\n        \"name\": \"Cali\"\n    },\n        {\n        \"id\": \"48a9ab90-1276-11ed-861d-0241ac12132\",\n        \"name\": \"Medellin\"\n    },\n        {\n        \"id\": \"48a9ab90-1276-11ed-861d-0242ac234132\",\n        \"name\": \"Santa Marta\"\n    }\n]"
+								},
+								{
+									"name": "Get all country cities error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/countries/{{country_id}}/cities",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"countries",
+												"{{country_id}}",
+												"cities"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Cities not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete country city",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function() {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/countries/{{country_id}}/cities/{{city_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										"{{country_id}}",
+										"cities",
+										"{{city_id}}"
+									]
+								},
+								"description": "This request remove a city by the assigned ID."
+							},
+							"response": [
+								{
+									"name": "Delete country",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/v1/countries/1928/cities/1221321",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"countries",
+												"1928",
+												"cities",
+												"1221321"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac12132\",\n    \"name\": \"Bogotá\"\n}"
+								},
+								{
+									"name": "Delete country error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/countries/{{country_id}}/cities/{{city_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"countries",
+												"{{country_id}}",
+												"cities",
+												"{{city_id}}"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The city with the given id was not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Add restaurant to city",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function() {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"id\": \"{{restaurant_id}}\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cities/{{city_id}}/restaurants",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cities",
+										"{{city_id}}",
+										"restaurants"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add restaurant to city",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n    {\n        \"id\": \"54356944-1a52-41f1-9e22-8641254b9c3d\"\n    }\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cities/{{city_id}}/restaurants",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cities",
+												"{{city_id}}",
+												"restaurants"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac12132\",\n    \"name\": \"Bogotá\"\n}"
+								},
+								{
+									"name": "Add restaurant to city error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n    {\n        \"id\": \"54356944-1a52-41f1-9e22-8641254b8c3d\"\n    }\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cities/{{city_id}}/restaurants",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cities",
+												"{{city_id}}",
+												"restaurants"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The city with the given id was not found\"\n}"
+								}
+							]
+						}
+					],
+					"description": "This collection manages a cities."
+				},
+				{
+					"name": "Add country",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function() {",
+									"    pm.response.to.have.status(201);",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"country_id\", jsonData.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Colombia\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/countries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries"
+							]
+						},
+						"description": "This request creates a new country. The API returns the created resource with the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Add country",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Colombia\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/countries",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"countries"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Colombia\"\n}"
+						},
+						{
+							"name": "Add country error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/countries",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 500,\n   \"message\": \"The country can not be created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get country",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/countries/{{country_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries",
+								"{{country_id}}"
+							]
+						},
+						"description": "This request get a country by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Get country",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/countries/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"countries",
+										"1928"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n   \"name\": \"Colombia\"\n}"
+						},
+						{
+							"name": "Get country error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/countries/{{country_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										"{{country_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The country with the given id was not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update country",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Venezuela\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/countries/{{country_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries",
+								"{{country_id}}"
+							]
+						},
+						"description": "This request update a country by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Update country",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Colombia\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/countries/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"countries",
+										"1928"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Colombia\"\n}"
+						},
+						{
+							"name": "Update country error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Colombia\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/countries/{{country_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										"{{country_id}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 400,\n   \"message\": \"The country can not be updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all countries",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/countries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries"
+							]
+						},
+						"description": "This request get all countries."
+					},
+					"response": [
+						{
+							"name": "Get all countries",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/countries",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"countries"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n   {\n       \"id\": \"14f05d0e-1275-11ed-861d-0242ac120002\",\n       \"name\": \"Colombia\"\n    },\n   {\n       \"id\": \"14f05d0e-1275-11ed-861d-0242ac120003\",\n       \"name\": \"Venezuela\"\n    },\n   {\n       \"id\": \"14f05d0e-1275-11ed-861d-0242ac120004\",\n       \"name\": \"Chile\"\n    },\n   {\n       \"id\": \"14f05d0e-1275-11ed-861d-0242ac120005\",\n       \"name\": \"Brasil\"\n    }\n]"
+						},
+						{
+							"name": "Get all countries error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/countries",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Countries not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete country",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function() {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/countries/{{country_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries",
+								"{{country_id}}"
+							]
+						},
+						"description": "This request remove a country by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Delete countries",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/countries/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"countries",
+										"1928"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Delete countries error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/countries/{{country_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										"{{country_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Country can not be deleted\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This collection manages countries."
+		},
+		{
+			"name": "Gastronomic Culture",
+			"item": [
+				{
+					"name": "Recipes",
+					"item": [
+						{
+							"name": "Add recipe to gastronomic culture",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function() {",
+											"    pm.response.to.have.status(201);",
+											"    ",
+											"    var jsonData = pm.response.json();",
+											"    pm.collectionVariables.set(\"recipe_id\", jsonData.recipes[jsonData.recipes.length-1].id);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Tacos\",\n    \"description\": \"El taco es una preparación culinaria muy popular de México que consiste en una tortilla, generalmente de maíz, que se dobla o se enrolla para contener dentro diversos ingredientes.\",\n    \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg/1280px-001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg\",\n    \"video\": \"https://www.youtube.com/watch?v=ZJPpMSx3eSw\",\n    \"preparationProcess\": \"Este tipo de taco se prepara con dos tortillas fritas y encima se añade una porción de suadero (carne de res) y se puede acompañar con cilantro, cebolla, limón, sal y ya sea salsa roja o verde al gusto del comensal. Este tipo de taco es más fácil de encontrar ya que es de los más populares junto al de pasto...\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures",
+										"{{gastronomic_culture_id}}",
+										"recipes"
+									]
+								},
+								"description": "This request creates a new recipe. The API returns the created resource with the assigned ID."
+							},
+							"response": [
+								{
+									"name": "Add gastronomic culture recipe",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bandeja Paisa\",\n    \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n    \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n    \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n    \"preparationProcess\": \"Prepare the beans, hogao and powdered meat the day before and store in the fridge. When you are ready to serve the paisa tray, heat the beans, hogao, the meat powder and prepare the pork rinds. Cook white rice and plantains. Fry the eggs and sausages.\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/v1/gastronomic-cultures/189327/recipes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"gastronomic-cultures",
+												"189327",
+												"recipes"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\",\n   \"recipes\": [\n        {\n            \"id\": \"00519f14-2cd5-4a21-810d-39b06319bb54\",\n            \"name\": \"Bandeja Paisa\",\n            \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n            \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n            \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n            \"preparationProcess\": \"Prepare the beans, hogao and powdered meat the day before and store in the fridge. When you are ready to serve the paisa tray, heat the beans, hogao, the meat powder and prepare the pork rinds. Cook white rice and plantains. Fry the eggs and sausages.\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "Add gastronomic culture recipe error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bandeja Paisa\",\n    \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n    \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n    \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n    \"preparationProcess\": \"Prepare the beans, hogao and powdered meat the day before and store in the fridge. When you are ready to serve the paisa tray, heat the beans, hogao, the meat powder and prepare the pork rinds. Cook white rice and plantains. Fry the eggs and sausages.\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"gastronomic-cultures",
+												"{{gastronomic_culture_id}}",
+												"recipes"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The gastronomic culture not exists\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get recipe by id in gastronomic culture",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function() {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes/{{recipe_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures",
+										"{{gastronomic_culture_id}}",
+										"recipes",
+										"{{recipe_id}}"
+									]
+								},
+								"description": "This request get a recipe by the assigned ID."
+							},
+							"response": [
+								{
+									"name": "Get gastronomic culture recipe",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/v1/gastronomic-cultures/189327/recipes/18183",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"gastronomic-cultures",
+												"189327",
+												"recipes",
+												"18183"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"id\": \"00519f14-2cd5-4a21-810d-39b06319bb54\",\n    \"name\": \"Bandeja Paisa\",\n    \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n    \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n    \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n    \"preparationProcess\": \"Prepare the beans, hogao and powdered meat the day before and store in the fridge. When you are ready to serve the paisa tray, heat the beans, hogao, the meat powder and prepare the pork rinds. Cook white rice and plantains. Fry the eggs and sausages.\"\n}"
+								},
+								{
+									"name": "Get gastronomic culture recipe Copy",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes/{{recipe_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"gastronomic-cultures",
+												"{{gastronomic_culture_id}}",
+												"recipes",
+												"{{recipe_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The recipe with the given id was not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update gastronomic culture recipe",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Bandeja Paisa\",\n    \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n    \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n    \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n    \"preparationProcess\": \"Preparar los frijoles, hogao y carne en polvo el día danterior y guardar en la nevera. Cuando este listo para servir la bandeja paisa, caliente los frijoles ,hogao, la carne en polvo y prepare los chicharrones. Cocine el arroz blanco y los plátanos.  Freír los huevos y chorizos.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes/{{recipe_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures",
+										"{{gastronomic_culture_id}}",
+										"recipes",
+										"{{recipe_id}}"
+									]
+								},
+								"description": "This request update a recipe by the assigned ID."
+							},
+							"response": [
+								{
+									"name": "Update gastronomic culture recipe",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bandeja Paisa\",\n    \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n    \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n    \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n    \"preparationProcess\": \"Preparar los frijoles, hogao y carne en polvo el día danterior y guardar en la nevera. Cuando este listo para servir la bandeja paisa, caliente los frijoles ,hogao, la carne en polvo y prepare los chicharrones. Cocine el arroz blanco y los plátanos.  Freír los huevos y chorizos.\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/v1/gastronomic-cultures/189327/recipes/18183",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"gastronomic-cultures",
+												"189327",
+												"recipes",
+												"18183"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\",\n   \"recipes\": [\n        {\n            \"id\": \"00519f14-2cd5-4a21-810d-39b06319bb54\",\n            \"name\": \"Bandeja Paisa\",\n            \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n            \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n            \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n            \"preparationProcess\": \"Prepare the beans, hogao and powdered meat the day before and store in the fridge. When you are ready to serve the paisa tray, heat the beans, hogao, the meat powder and prepare the pork rinds. Cook white rice and plantains. Fry the eggs and sausages.\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "Update gastronomic culture recipe error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Bandeja Paisa\",\n    \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n    \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n    \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n    \"preparationProcess\": \"Preparar los frijoles, hogao y carne en polvo el día danterior y guardar en la nevera. Cuando este listo para servir la bandeja paisa, caliente los frijoles ,hogao, la carne en polvo y prepare los chicharrones. Cocine el arroz blanco y los plátanos.  Freír los huevos y chorizos.\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes/{{recipe_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"gastronomic-cultures",
+												"{{gastronomic_culture_id}}",
+												"recipes",
+												"{{recipe_id}}"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The recipe with the given id was not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get all gastronomic culture recipes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"   pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures",
+										"{{gastronomic_culture_id}}",
+										"recipes"
+									]
+								},
+								"description": "This request get all recipes."
+							},
+							"response": [
+								{
+									"name": "Get gastronomic culture recipes",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/v1/gastronomic-cultures/189327/recipes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"gastronomic-cultures",
+												"189327",
+												"recipes"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": \"00519f14-2cd5-4a21-810d-39b06319bb54\",\n        \"name\": \"Bandeja Paisa\",\n        \"description\": \"The Paisa tray is one of the most representative dishes of Colombia and the emblem of Antioquia gastronomy, and it is typical of this region, Antioquia.\",\n        \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/1/12/Bandepaisabog.JPG\",\n        \"video\": \"https://www.youtube.com/watch?v=fed_bdj-ZN4\",\n        \"preparationProcess\": \"Prepare the beans, hogao and powdered meat the day before and store in the fridge. When you are ready to serve the paisa tray, heat the beans, hogao, the meat powder and prepare the pork rinds. Cook white rice and plantains. Fry the eggs and sausages.\"\n    },\n    {\n        \"id\": \"00519f14-2cd5-4a21-810d-39b06319bb54\",\n        \"name\": \"Ajiaco\",\n        \"description\": \"Typical Bogotá soup based on chicken and potato varieties.\",\n        \"photo\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Ajiaco-santafereño.JPG/1280px-Ajiaco-santafereño.JPG\",\n        \"video\": \"https://www.youtube.com/watch?v=aOw1w-V3u_g\",\n        \"preparationProcess\": \"In a large pot add the water, the chicken and half of the guascas. Let it cook for approximately 40 minutes. When the chicken is cooked, you take it out of the pot and place it on a separate plate; cut into small pieces and cover with foil to keep warm. Don't throw the water.\"\n    }\n]"
+								},
+								{
+									"name": "Get all gastronomic culture recipes error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes/{{recipe_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"gastronomic-cultures",
+												"{{gastronomic_culture_id}}",
+												"recipes",
+												"{{recipe_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The recipe with the given id was not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete a recipe of a gastronomic culture",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"   pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes/{{recipe_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures",
+										"{{gastronomic_culture_id}}",
+										"recipes",
+										"{{recipe_id}}"
+									]
+								},
+								"description": "This request remove a recipe by the assigned ID."
+							},
+							"response": [
+								{
+									"name": "Delete gastronomic culture recipe",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/v1/gastronomic-cultures/189327/recipes/18183",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"gastronomic-cultures",
+												"189327",
+												"recipes",
+												"18183"
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Delete gastronomic culture recipe",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}/recipes/{{recipe_id}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"gastronomic-cultures",
+												"{{gastronomic_culture_id}}",
+												"recipes",
+												"{{recipe_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The recipe with the given id was not found\"\n}"
+								}
+							]
+						}
+					],
+					"description": "This collection manages recipes."
+				},
+				{
+					"name": "Add gastronomic culture",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"gastronomic_culture_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/gastronomic-cultures",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"gastronomic-cultures"
+							]
+						},
+						"description": "This request creates a new Gastronomic Culture. The API returns the created resource with the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Add gastronomic culture",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/gastronomic-cultures",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"gastronomic-cultures"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n}"
+						},
+						{
+							"name": "Add gastronomic culture error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 500,\n   \"message\": \"The gastronomic culture can not be created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get gastronomic culture",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"gastronomic-cultures",
+								"{{gastronomic_culture_id}}"
+							]
+						},
+						"description": "This request get a gastronomic culture by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Get gastronomic culture",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/gastronomic-cultures/189327",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"gastronomic-cultures",
+										"189327"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n}"
+						},
+						{
+							"name": "Get gastronomic culture error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures",
+										"{{gastronomic_culture_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The gastronomic culture with the given id was not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update gastronomic culture",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"gastronomic-cultures",
+								"{{gastronomic_culture_id}}"
+							]
+						},
+						"description": "This request update a gastronomic culture by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Update gastronomic culture",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/gastronomic-cultures/189327",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"gastronomic-cultures",
+										"189327"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"1e061964-1276-11ed-861d-0242ac120002\",\n   \"name\": \"Mexican\",\n   \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n}"
+						},
+						{
+							"name": "Update gastronomic culture error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Mexican\",\n    \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures",
+										"{{gastronomic_culture_id}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 400,\n   \"message\": \"The gastronomic culture can not be updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all gastronomic-cultures",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Number of gastronomic-cultures > ' + 0, function () {\r",
+									"   var data = pm.response.json()\r",
+									"   pm.expect(data.length).to.greaterThan(0)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjI0MzkxMjUsImV4cCI6MTY2MjQ0NjMyNX0.M0S61pznK-AsfAQ01J1fXrQY0k6OesWftocUVMvU8S4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/gastronomic-cultures",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"gastronomic-cultures"
+							]
+						},
+						"description": "This request get all gastronomic cultures."
+					},
+					"response": [
+						{
+							"name": "Get all gastronomic-cultures",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/gastronomic-cultures",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"gastronomic-cultures"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"14f05d0e-1275-11ed-861d-0242ac120002\",\n        \"name\": \"Mexican\",\n        \"description\": \"The basis of current Mexican cuisine derives largely from the cuisine existing in pre-Hispanic times, with a preponderant use of corn, beans, chili, tomato, green tomato, pumpkin, avocado, cocoa, peanut, amaranth, vanilla, nopal, agave, cacti, herbs and condiments\"\n    },\n    {\n        \"id\": \"14f05d0e-1275-11ed-861d-0242ac120003\",\n        \"name\": \"Colombian\",\n        \"description\": \"Colombia offers good and elaborate food at excellent prices. Among the most representative regional dishes are the santafereño ajiaco, the paisa tray, the mote de queso, the tolimense suckling pig, the mamona or veal a la llanera, the santandereano mute, the tamale and the fish\"\n    }\n]"
+						},
+						{
+							"name": "Get all gastronomic-cultures error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Gastronomic cultures not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete gastronomic culture",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"   pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"gastronomic-cultures",
+								"{{gastronomic_culture_id}}"
+							]
+						},
+						"description": "This request remove a gastronomic cultures by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Delete gastronomic-cultures",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/gastronomic-cultures/189327",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"gastronomic-cultures",
+										"189327"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Delete gastronomic-cultures error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/gastronomic-cultures/{{gastronomic_culture_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gastronomic-cultures",
+										"{{gastronomic_culture_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Gastronomic culture can not be deleted\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This collection manages gastronomic culture."
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Add product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function() {",
+									"    pm.response.to.have.status(201);",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"product_id\", jsonData.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "This request creates a new product. The API returns the created resource with the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Add product",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}"
+						},
+						{
+							"name": "Add product error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 500,\n   \"message\": \"The product can not be created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{product_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "This request get a product by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Get product",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/products/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1928"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}"
+						},
+						{
+							"name": "Get product error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/{{product_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The product with the given id was not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/{{product_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "This request update a product by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Update product",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/products/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1928"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}"
+						},
+						{
+							"name": "Update product error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Onion\",\n    \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n    \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/{{product_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 400,\n   \"message\": \"The product can not be updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "This request get all products."
+					},
+					"response": [
+						{
+							"name": "Get all products",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n        \"name\": \"Onion\",\n        \"description\": \"The onion contains natural sugar, vitamins A, B6, C and E. Also minerals such as sodium, potassium, iron and dietary fiber. They are also a good source of folic acid. 100 grams of onion contains 44 calories and 1.4 grams of fiber.\",\n        \"history\": \"The onion is native to Asia, and has been known since 6,000 BC. From this continent it spread to Europe thanks to the Romans, and from there it passed to America. Today it is cultivated mainly in Asia. The main producing countries are China, India, the United States and Turkey.\"\n    },\n    {\n        \"id\": \"48a9ab90-1276-11ed-861d-0242ac120003\",\n        \"name\": \"Carrot\",\n        \"description\": \"Daucus carota sativus, popularly called carrot, is the domesticated form of the wild carrot, a species of the Umbelliferae family, also called Apiaceae, and considered the most important and widely consumed within this family.\",\n        \"history\": \"The carrot originated in Central Asia, from where it spread to Europe and the rest of the world. Although it was already known by the Greeks and Romans, it was not until the 17th century that the first orange carrots appeared. It is currently a crop spread throughout the world.\"\n    }\n]"
+						},
+						{
+							"name": "Get all products error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Products not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function() {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{product_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "This request remove a product by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Delete products",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/products/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1928"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Delete products error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/{{product_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Products can not be deleted\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This collection manages products."
+		},
+		{
+			"name": "Restaurant",
+			"item": [
+				{
+					"name": "New restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"pm.globals.set(\"restaurant_id\", data.id);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Burger Castle\",\n   \"stars\": 3,\n   \"date\": \"2022-09-14T21:09:41+00:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/restaurants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"restaurants"
+							]
+						},
+						"description": "This request creates a new restaurant. The API returns the created resource with the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Add restaurant",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Chef Burguer\",\n    \"stars\": 5,\n    \"date\": \"2022-08-25T01:54:41+00:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/restaurants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"restaurants"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Chef Burguer\",\n    \"stars\": 5,\n    \"date\": \"2022-08-25T01:54:41+00:00\"\n}"
+						},
+						{
+							"name": "Add restaurant error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/restaurants",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"restaurants"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 500,\n   \"message\": \"The restaurant can not be created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/restaurants/{{restaurants_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"restaurants",
+								"{{restaurants_id}}"
+							]
+						},
+						"description": "This request get a restaurant by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Get restaurant",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/restaurants/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"restaurants",
+										"1928"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Chef Burguer\",\n    \"stars\": 5,\n    \"date\": \"2022-08-25T01:54:41+00:00\"\n}"
+						},
+						{
+							"name": "Get restaurant error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/restaurants/{{restaurant_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"restaurants",
+										"{{restaurant_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"The restaurant with the given id was not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"BU&TA Mexican Food AR\",\n    \"stars\": 3,\n    \"date\": \"2022-09-10T11:09:41.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/restaurants/{{restaurants_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"restaurants",
+								"{{restaurants_id}}"
+							]
+						},
+						"description": "This request update a restaurant by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Update restaurant",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Chef Burguer\",\n    \"stars\": 5,\n    \"date\": \"2022-08-25T01:54:41+00:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/restaurants/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"restaurants",
+										"1928"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n    \"name\": \"Chef Burguer\",\n    \"stars\": 5,\n    \"date\": \"2022-08-25T01:54:41+00:00\"\n}"
+						},
+						{
+							"name": "Update restaurant error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Chef Burguer\",\n    \"stars\": 5,\n    \"date\": \"2022-08-25T01:54:41+00:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/restaurants/{{restaurant_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"restaurants",
+										"{{restaurant_id}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 400,\n   \"message\": \"The restaurant can not be updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all restaurants",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/restaurants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"restaurants"
+							]
+						},
+						"description": "This request get all restaurants."
+					},
+					"response": [
+						{
+							"name": "Get all restaurants",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/restaurants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"restaurants"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n        \"name\": \"Chef Burguer\",\n        \"stars\": 5,\n        \"date\": \"2022-08-25T01:54:41+00:00\"\n    },\n    {\n        \"id\": \"48a9ab90-1276-11ed-861d-0242ac120003\",\n        \"name\": \"El corral\",\n        \"stars\": 3,\n        \"date\": \"2022-08-25T01:54:41+00:00\"\n    },\n    {\n        \"id\": \"48a9ab90-1276-11ed-861d-0242ac120004\",\n        \"name\": \"Creepes and wafles\",\n        \"stars\": 4,\n        \"date\": \"2022-08-25T01:54:41+00:00\"\n    }\n]"
+						},
+						{
+							"name": "Get all restaurants error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/restaurants",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"restaurants"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Restaurants not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"   pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/restaurants/{{restaurants_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"restaurants",
+								"{{restaurants_id}}"
+							]
+						},
+						"description": "This request remove a restaurant by the assigned ID."
+					},
+					"response": [
+						{
+							"name": "Delete restaurants",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/restaurants/1928",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"restaurants",
+										"1928"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Delete restaurants error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/restaurants/{{restaurant_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"restaurants",
+										"{{restaurant_id}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n   \"statusCode\": 404,\n   \"message\": \"Restaurant can not be deleted\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This collection manages restaurants."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "category_id",
+			"value": ""
+		},
+		{
+			"key": "product_id",
+			"value": ""
+		},
+		{
+			"key": "recipe_id",
+			"value": "1"
+		},
+		{
+			"key": "restaurants_id",
+			"value": "1"
+		},
+		{
+			"key": "country_id",
+			"value": ""
+		},
+		{
+			"key": "city_id",
+			"value": ""
+		}
+	]
+}

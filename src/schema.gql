@@ -1,0 +1,144 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Restaurant {
+  id: String!
+  name: String!
+  stars: Float!
+  date: DateTime!
+  cities: [City!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type City {
+  id: String!
+  name: String!
+  country: Country!
+  restaurants: [Restaurant!]!
+}
+
+type Country {
+  id: String!
+  name: String!
+  gastronomicCulture: GastronomicCulture!
+  cities: [City!]!
+}
+
+<<<<<<< Updated upstream
+type Recipe {
+  id: String!
+  name: String!
+  description: String!
+  photo: String!
+  video: String!
+  preparationProcess: String!
+}
+
+type Product {
+  id: String!
+  name: String!
+  description: String!
+  history: String!
+  category: Category!
+  recipes: Recipe!
+}
+
+type Category {
+  id: String!
+  name: String!
+  products: [Product!]!
+}
+
+type Query {
+  categorys: [Category!]!
+  category(id: String!): Category!
+  products: [Product!]!
+  product(id: String!): Product!
+  countries: [Country!]!
+  country(id: String!): Country!
+  citys: [City!]!
+  city(id: String!): City!
+  recipes: [Recipe!]!
+  recipe(id: String!): Recipe!
+  restaurants: [Restaurant!]!
+  restaurant(id: String!): Restaurant!
+}
+
+type Mutation {
+  createCategory(category: CategoryDTO!): Category!
+  updateCategory(id: String!, category: CategoryDTO!): Category!
+  deleteCategory(id: String!): String!
+  createProduct(product: ProductDTO!): Product!
+  updateProduct(id: String!, product: ProductDTO!): Product!
+  deleteProduct(id: String!): String!
+  createCountry(country: CountryDTO!): Country!
+  updateCountry(id: String!, country: CountryDTO!): Country!
+=======
+type GastronomicCulture {
+  id: String!
+  name: String!
+  description: String!
+  countries: Country!
+}
+
+type Query {
+  countries: [GastronomicCulture!]!
+  country(id: String!): Country!
+  citys: [City!]!
+  city(id: String!): City!
+  gastronomicCulture(id: String!): GastronomicCulture!
+}
+
+type Mutation {
+  createCountry(gastronomicCulture: GastronomicCultureDTO!): GastronomicCulture!
+  updateCountry(id: String!, gastronomicCulture: GastronomicCultureDTO!): GastronomicCulture!
+>>>>>>> Stashed changes
+  deleteCountry(id: String!): String!
+  createCity(city: CityDTO!): City!
+  updateCity(id: String!, city: CityDTO!): City!
+  deleteCity(id: String!): String!
+  createRecipe(recipe: RecipeDTO!): Recipe!
+  updateRecipe(id: String!, recipe: RecipeDTO!): Recipe!
+  addRecipeToGastronomicCulture(gastronomicCultureId: String!, recipe: RecipeDTO!): Recipe!
+  createRestaurant(restaurant: RestaurantDTO!): Restaurant!
+  updateRestaurant(id: String!, restaurant: RestaurantDTO!): Restaurant!
+  deleteRestaurant(id: String!): String!
+}
+
+input CategoryDTO {
+  name: String!
+}
+
+input ProductDTO {
+  name: String!
+  description: String!
+  history: String!
+}
+
+input GastronomicCultureDTO {
+  name: String!
+  description: String!
+}
+
+input CityDTO {
+  name: String!
+}
+
+input RecipeDTO {
+  name: String!
+  description: String!
+  photo: String!
+  video: String!
+  preparationProcess: String!
+}
+
+input RestaurantDTO {
+  name: String!
+  stars: Float!
+  date: DateTime!
+}
